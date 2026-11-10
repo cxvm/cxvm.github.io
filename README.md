@@ -2,6 +2,24 @@
 
 Personal engineering portfolio of Ivan Okhapkin. Static site: HTML, CSS, Three.js (3D viewer), Chart.js (charts). No build step.
 
+Live: **[cxvm.github.io](https://cxvm.github.io)**
+
+## Built with AI
+
+I'm a mechanical / robotics student, not a web developer, so I vibe-coded this site with Claude (Anthropic) instead of writing the code by hand. I treat this as a skill in itself: using an AI model as a tool to get a working result in an area outside my main field.
+
+**What I did:**
+- defined what the site should be: a dark-blue portfolio, project cards on the home page, a rotating 3D model next to the description, charts at the end
+- supplied all the engineering content: CAD assemblies (STEP), measured part masses, photos, video, the project story and the design decisions
+- reviewed every version in the browser and steered the changes (layout, text, what to show and what to cut)
+- caught problems and had them fixed, e.g. the torque calculation was redone after I weighed the real printed parts
+
+**What Claude did:**
+- wrote the HTML, CSS and JavaScript
+- converted my SolidWorks assemblies into lightweight web 3D models
+- built the charts from my measured data
+- set up the GitHub Pages deployment
+
 ## Structure
 
 ```
@@ -14,7 +32,6 @@ assets/vendor/              three.js and chart.js (local copies)
 projects/<slug>/index.html  project page
 projects/<slug>/model.json  3D model (glTF with embedded data)
 projects/<slug>/media/      photos, video, thumbnail
-projects/<slug>/files/      PDFs and downloads
 ```
 
 ## Adding a project

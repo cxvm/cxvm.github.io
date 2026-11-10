@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4-DOF Robot Arm - Ivan Okhapkin</title>
+  <meta name="description" content="3D-printed 4-DOF robot arm on SG90 servos with a gear-driven gripper, designed in SolidWorks and controlled by Arduino.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f2142'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='%234da3ff' font-family='Arial' font-weight='700'>IO</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "../../assets/vendor/three/three.module.js",
+      "three/addons/": "../../assets/vendor/three/addons/"
+    } }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../../index.html">Ivan Okhapkin<span>.</span></a>
+      <nav class="links">
+        <a class="icon-link" href="https://www.linkedin.com/in/idokhapkin" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg><span class="label">LinkedIn</span></a>
+        <a class="icon-link" href="https://github.com/cxvm" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.23c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg><span class="label">GitHub</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back" href="../../index.html">← All projects</a>
+    <section class="project-head">
+      <div class="eyebrow">Mechanism design · Embedded</div>
+      <h1>4-DOF Robot Arm</h1>
+      <p class="lead">A 3D-printed desktop arm with a rotating base, shoulder, elbow and a gear-driven gripper. Designed in SolidWorks, printed in PLA, wired and programmed on Arduino, and sized from a torque calculation rather than by eye.</p>
+      <div class="tags"><span class="tag">SolidWorks</span><span class="tag">FDM / PLA</span><span class="tag">Arduino C++</span><span class="tag">SG90 servos</span><span class="tag">Spur gears</span></div>
+    </section>
+
+    <section class="layout">
+      <div class="viewer-col">
+        <div class="viewer" data-model="model.json">
+          <div class="viewer-hint">drag to rotate · scroll to zoom</div>
+          <div class="viewer-legend"><span><i style="background:#c0c8d7"></i>printed</span><span><i style="background:#2a5ad8"></i>servo</span><span><i style="background:#ff8c28"></i>gripper</span></div>
+        </div>
+      </div>
+
+      <article class="content">
+        <h2>Overview</h2>
+        <div class="stats">
+          <div class="stat"><b>4 DOF</b><span>base, shoulder, elbow, gripper</span></div>
+          <div class="stat"><b>~22 cm</b><span>reach, shoulder axis to jaws</span></div>
+          <div class="stat"><b>~17 g</b><span>max payload at full reach</span></div>
+          <div class="stat"><b>28 %</b><span>of SG90 stall torque, arm's own weight</span></div>
+        </div>
+        <p>Four SG90 micro servos drive the joints. Two analog joysticks control the arm in real time. The whole structure is designed around one constraint: the small torque of the SG90.</p>
+
+        <h2>The story</h2>
+        <p>This arm went through three versions before it became my own design.</p>
+        <ol class="timeline">
+          <li><span class="step">v0 · Printed someone else's model</span>I started by printing a ready-made arm from MakerWorld, just to get something moving and see how a servo arm works.</li>
+          <li><span class="step">v1 · My own design, by eye</span>Then I wanted to build my own, using that arm as a reference. I measured everything with a ruler, modelled the parts by eye and printed them. It worked, but it showed me a long list of inaccuracies: parts that didn't fit the servos, gaps, and a gripper that lost sync.</li>
+          <li><span class="step">v2 · Rebuilt from scratch around real components</span>I started again, this time from CAD models of the SG90 servo and horn, and designed every part around them. Then I built the full assembly in SolidWorks, checked the fits there, and only then printed. This is the version on this page.</li>
+          <li class="next"><span class="step">Next</span>Hide the wiring inside the structure, make the base support stiffer, and add a counterweight behind the shoulder (the torque calculation below shows why). In the firmware, add a teach-and-playback mode: record positions with the joysticks and replay them as a sequence, the way industrial robot arms are programmed.</li>
+        </ol>
+
+        <h2>Mechanical design</h2>
+        <table>
+          <tr><th>Part</th><th class="num">Mass</th><th>Function</th></tr>
+          <tr><td>RA00.00.01</td><td class="num">19.0 g</td><td>Base plate, carries the yaw servo</td></tr>
+          <tr><td>RA00.00.02</td><td class="num">9.7 g</td><td>Shoulder servo mount</td></tr>
+          <tr><td>RA00.00.03</td><td class="num">9.7 g</td><td>Link 1, shoulder to elbow (100 mm)</td></tr>
+          <tr><td>RA00.00.04</td><td class="num">9.1 g</td><td>Link 2, holds the elbow and gripper servos</td></tr>
+          <tr><td>RA00.00.05 / 06</td><td class="num">3.8 g</td><td>Gear-coupled gripper fingers</td></tr>
+        </table>
+        <ul>
+          <li><strong>Walls are multiples of the extrusion width</strong> (1.2 / 1.6 mm = 3 / 4 perimeters at 0.4 mm nozzle), so they print solid without gap infill.</li>
+          <li><strong>Servo horn pockets are offset +0.15 mm</strong> for FDM XY tolerance. The fit was checked on a small test print before printing full parts.</li>
+          <li><strong>Short, light links</strong>, because the shoulder torque budget limits everything beyond it.</li>
+        </ul>
+
+        <h2>Gear-driven gripper</h2>
+        <p>Two identical spur gears couple the fingers, so both move symmetrically from one servo. One finger sits on the servo horn, the other turns on an M2 axis in the same link.</p>
+        <table>
+          <tr><th>Parameter</th><th class="num">Value</th></tr>
+          <tr><td>Teeth z / module m</td><td class="num">13 / 1.17 mm</td></tr>
+          <tr><td>Pressure angle</td><td class="num">20°, involute</td></tr>
+          <tr><td>Centre distance a = m·z</td><td class="num">15.41 mm</td></tr>
+          <tr><td>FDM clearance</td><td class="num">+0.2 mm, 0.06 mm backlash</td></tr>
+        </table>
+        <p>The module was derived from the centre distance fixed by the existing part, not chosen first. Mesh and collisions were checked from 0° to 60° opening in 5° steps: the tooth gap stays at ~0.19 mm with no interference.</p>
+        <figure class="figure"><img src="media/gripper_mesh_check.png" alt="Gear mesh check at 0, 20, 40 and 60 degrees"><figcaption>Gear mesh at 0°, 20°, 40° and 60° opening</figcaption></figure>
+
+        <h3>Iteration: v1 → v2</h3>
+        <div class="note"><strong>v1 problem:</strong> the fingers lost synchronisation at large angles. The second gear sat on a thin pin with no rigid frame, so the gear separation force pushed the axes apart and the teeth skipped.<br><strong>v2 fix:</strong> both axes fixed in one rigid part, full 360° gears, and an integrated spacer boss as a bearing surface.</div>
+
+        <h2>Shoulder torque</h2>
+        <p>The shoulder carries everything beyond it, so it is the most loaded joint. Worst case is the arm fully extended horizontally. Masses are weighed printed parts; lever arms are the distances from the shoulder axis to each centre of mass, taken from the SolidWorks assembly.</p>
+        <div class="formula">M = Σ mᵢ · rᵢ</div>
+        <table>
+          <tr><th>Element</th><th class="num">m, g</th><th class="num">r, cm</th><th class="num">M, g·cm</th></tr>
+          <tr><td>Link 1</td><td class="num">9.73</td><td class="num">5.0</td><td class="num">49</td></tr>
+          <tr><td>Elbow servo</td><td class="num">9</td><td class="num">10.5</td><td class="num">95</td></tr>
+          <tr><td>Link 2</td><td class="num">9.10</td><td class="num">14.7</td><td class="num">134</td></tr>
+          <tr><td>Gripper servo</td><td class="num">9</td><td class="num">17.6</td><td class="num">158</td></tr>
+          <tr><td>Gripper fingers</td><td class="num">3.79</td><td class="num">19.7</td><td class="num">75</td></tr>
+          <tr class="total"><td>Arm only</td><td></td><td></td><td class="num">≈ 510</td></tr>
+          <tr><td>+ payload 20 g</td><td class="num">20</td><td class="num">21.9</td><td class="num">438</td></tr>
+          <tr class="total"><td>With payload</td><td></td><td></td><td class="num">≈ 948</td></tr>
+        </table>
+        <p>SG90 stall torque is 1.8 kg·cm. Stall means the motor is already stopped and overheating, so the working limit was set to <strong>50 % (900 g·cm)</strong>. Most SG90s on the market are clones with lower real torque, which makes this margin necessary.</p>
+        <p><strong>Result:</strong> the arm alone uses 510 g·cm, 28 % of stall. A 20 g payload at full reach brings it to 948 g·cm, slightly <strong>over the 900 g·cm working limit</strong>. The servo can hold it, but it runs hot. At the limit, the maximum payload at full reach is:</p>
+        <div class="formula">m_max = (900 − 510) / 21.9 cm ≈ 17 g</div>
+        <p>Where the torque comes from: the gripper end (gripper servo, fingers, payload) gives 71 % of the total, so a gram saved there is worth four grams on link 1. The elbow carries 390 g·cm with the same payload, well inside the limit.</p>
+        <h3>Fix: counterweight</h3>
+        <p>A 50 g counterweight 4 cm behind the shoulder axis adds −200 g·cm and brings the loaded case to <strong>748 g·cm</strong>, back under the limit with margin. Since the counterweight sits on link 1, its torque falls with cos(θ) just like the arm's, so it balances at every angle. A heavy weight close to the axis is better than a light one far away: same torque (m·d), less inertia (m·d²).</p>
+
+        <h2>Electronics</h2>
+        <figure class="figure"><img src="media/wiring.png" alt="Wiring diagram"><figcaption>Servos on a separate 5 V supply, joysticks on A0-A3, common ground</figcaption></figure>
+        <ul>
+          <li><strong>Separate 5 V supply</strong> for the servos: four SG90s under load draw 2+ A, far more than the Arduino regulator or USB can give.</li>
+          <li><strong>Common ground</strong> between supply and Arduino, so the servo signal has a reference.</li>
+        </ul>
+
+        <h2>Firmware</h2>
+        <ul>
+          <li><strong>Velocity control:</strong> stick deflection sets how fast a joint moves, so the arm holds its pose when the stick is released.</li>
+          <li><strong>Joystick centres calibrated at start-up</strong> from 16 samples, so cheap joysticks with an offset centre don't drift.</li>
+          <li><strong>Dead zone and per-joint soft limits</strong> keep the servos away from mechanical stops, where an SG90 stalls and overheats.</li>
+          <li><strong>Servos attached one by one</strong> to avoid a current spike at power-on.</li>
+        </ul>
+
+        <h2>Files</h2>
+        <div class="files">
+          <a class="btn primary" href="https://github.com/cxvm/arduino-robot-arm" target="_blank" rel="noopener">GitHub repository</a>
+          <a class="btn" href="files/robot-arm-portfolio.pdf" target="_blank">Project sheet (PDF)</a>
+          <a class="btn" href="files/gripper-drawings.pdf" target="_blank">Gripper drawings (PDF)</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <section class="band" id="media">
+    <div class="wrap">
+      <h2>In action</h2>
+      <p class="sub">The assembled arm picking up and placing a printed part, controlled with the two joysticks.</p>
+      <div class="gallery" id="gallery">
+        <video src="media/demo.mp4" poster="media/demo-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+        <img src="media/photo-1.jpg" alt="Robot arm photo">
+        <img src="media/photo-2.jpg" alt="Robot arm photo">
+        <img src="media/photo-3.jpg" alt="Robot arm photo">
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>Calculations</h2>
+      <p class="sub">Generated from the measured part masses. The working limit is 50 % of the SG90 stall torque.</p>
+      <div class="charts">
+        <div class="chart-card"><h3>Shoulder torque vs link length</h3><p>Equal links, arm horizontal. Where the curve crosses the limit is the longest allowed link.</p><div class="chart-box"><canvas id="c-length"></canvas></div></div>
+        <div class="chart-card"><h3>Where the torque comes from</h3><p>Contribution of each element at full reach with a 20 g payload.</p><div class="chart-box"><canvas id="c-split"></canvas></div></div>
+        <div class="chart-card"><h3>Torque vs arm angle</h3><p>Torque falls with cos(θ) as the arm lifts. Horizontal (0°) is the worst case.</p><div class="chart-box"><canvas id="c-angle"></canvas></div></div>
+        <div class="chart-card"><h3>Payload margin</h3><p>Shoulder torque at full reach as the payload grows. Crossing the limit gives the maximum payload.</p><div class="chart-box"><canvas id="c-payload"></canvas></div></div>
+      </div>
+      <p style="color:var(--dim);font-size:13px;margin-top:24px">Gripper v1 fingers: Servo Mini Arm by Luca Dilo. Gripper v2 finger geometry was generated parametrically (CadQuery, AI-assisted) from the assembly dimensions and checked for mesh and collisions.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap"><span>© <span id="y"></span> Ivan Okhapkin · Tallinn, Estonia</span><a href="../../index.html">← All projects</a></div>
+  </footer>
+
+  <script type="module" src="../../assets/js/viewer.js"></script>
+  <script src="../../assets/vendor/chart.umd.min.js"></script>
+  <script src="../../assets/js/charts.js"></script>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    // show only the media files that exist; hide the whole section if none do
+    (function () {
+      const g = document.getElementById("gallery");
+      const items = [...g.children];
+      let pending = items.length;
+      const done = () => { if (--pending === 0 && !g.children.length) document.getElementById("media").remove(); };
+      items.forEach((el) => {
+        const src = el.getAttribute("src");
+        el.removeAttribute("src");
+        const ok = () => { el.setAttribute("src", src); done(); };
+        const bad = () => { el.remove(); done(); };
+        if (el.tagName === "VIDEO") fetch(src, { method: "HEAD" }).then((r) => (r.ok ? ok() : bad())).catch(bad);
+        else { const p = new Image(); p.onload = ok; p.onerror = bad; p.src = src; }
+      });
+    })();
+  </script>
+  <script>
+    // chart data for this project
+    armCharts({
+      limit: 900, stall: 1800,
+      density: 0.95,            // g per cm of link (weighed parts)
+      elbowServo: 9, endMass: 12.79, payload: 20,
+      L1: 10, L2: 11.9,
+      parts: [["Link 1", 9.73, 5.0], ["Elbow servo", 9, 10.49], ["Link 2", 9.1, 14.69], ["Gripper servo", 9, 17.58], ["Gripper fingers", 3.79, 19.74], ["Payload", 20, 21.9]]
+    });
+  </script>
+</body>
+</html>

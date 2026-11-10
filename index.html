@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ivan Okhapkin - Robotics & Product Development</title>
+  <meta name="description" content="Engineering portfolio of Ivan Okhapkin, Product Development and Robotics student at TalTech.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f2142'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='%234da3ff' font-family='Arial' font-weight='700'>IO</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">Ivan Okhapkin<span>.</span></a>
+      <nav class="links">
+        <a class="icon-link" href="https://www.linkedin.com/in/idokhapkin" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          <span class="label">LinkedIn</span>
+        </a>
+        <a class="icon-link" href="https://github.com/cxvm" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.23c-3.34.73-4.04-1.42-4.04-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg>
+          <span class="label">GitHub</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Product Development & Robotics · TalTech</div>
+      <h1>Designing, printing and<br>programming machines.</h1>
+      <p>I design mechanical parts in SolidWorks, print and assemble them, and write the firmware that makes them move. Focus: robotics, drones and autonomous systems.</p>
+    </section>
+
+    <div class="section-title">Projects</div>
+    <section class="grid featured-row" id="featured"></section>
+    <section class="grid" id="projects"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span id="y"></span> Ivan Okhapkin · Tallinn, Estonia</span>
+      <span>Built with HTML, Three.js and Chart.js</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/projects.js"></script>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    // photo first; if it is missing, fall back to the 3D render; if that is missing too, show a placeholder
+    window.thumbFail = (img) => {
+      const next = img.dataset.fallback;
+      if (next) { img.dataset.fallback = ""; img.src = next; } else img.remove();
+    };
+    const card = (p) => `
+      <a class="card${p.featured ? " featured" : ""}" href="projects/${esc(p.slug)}/index.html">
+        <div class="card-thumb"><img src="${esc(p.thumb)}" data-fallback="${esc(p.thumb3d || "")}" alt="${esc(p.title)}" loading="lazy" onerror="thumbFail(this)"></div>
+        <div class="card-body">
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.summary)}</p>
+          <div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        </div>
+      </a>`;
+    document.getElementById("featured").innerHTML = window.PROJECTS.filter((p) => p.featured).map(card).join("");
+    document.getElementById("projects").innerHTML = window.PROJECTS.filter((p) => !p.featured).map(card).join("");
+  </script>
+</body>
+</html>
